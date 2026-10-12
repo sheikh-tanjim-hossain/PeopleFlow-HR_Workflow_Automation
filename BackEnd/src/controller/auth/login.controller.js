@@ -59,6 +59,7 @@ async function loginController(req, res) {
      */
 
     // send jwt
+
     const jwtToken = jwt.sign(
       {
         id: employee._id,

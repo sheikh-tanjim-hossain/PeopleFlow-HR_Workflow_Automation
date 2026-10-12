@@ -8,6 +8,7 @@ function authenticationMiddleware(req, res, next, arr = []) {
     const token = req.signedCookies[process.env.APP_NAME];
 
     const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
+
     // JWT varification
     if (decodedToken.id) {
       if (arr.length === 0) {
