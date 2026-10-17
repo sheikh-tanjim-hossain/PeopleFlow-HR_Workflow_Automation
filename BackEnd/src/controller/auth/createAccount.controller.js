@@ -4,21 +4,18 @@
 
 // internal exports
 const EmployeeModel = require("../../model/employeeModel");
-const apiResponse = require("../../utils/apiResponse");
-
-// external imports
-const bcrypt = require("bcryptjs");
+const ApiResponse = require("../../utils/apiResponse");
 
 async function createAccountController(req, res, next) {
+  const { name, email, password, age, salary, isEmployed, role } = req.body;
   try {
-    const userExist = await EmployeeModel.findOne({ email: req.body.email });
-
     // check if user exist
+    const userExist = await EmployeeModel.findOne({ email });
     if (userExist) {
       return res
         .status(409)
         .json(
-          new apiResponse(
+          new ApiResponse(
             409,
             "User with this email already exist",
             null,
@@ -26,27 +23,32 @@ async function createAccountController(req, res, next) {
           ),
         );
     }
-    // Encrypt password
-    const password = await bcrypt.hash(req.body.password, 10);
 
     // save to database
-    const employee = await EmployeeModel.create({ ...req.body, password });
+    const employee = await EmployeeModel.create({
+      name,
+      email,
+      password,
+      age,
+      salary,
+      isEmployed,
+      role,
+    });
 
-    // api response
     return res
       .status(200)
       .json(
-        new apiResponse(
+        new ApiResponse(
           200,
           "user created successfully",
-          { ...req.body, password },
+          { name, email, age, salary, isEmployed, role, id: employee._id },
           null,
         ),
       );
   } catch (err) {
     return res
       .status(500)
-      .json(new apiResponse(500, "User Creation Failed", null, err.message));
+      .json(new ApiResponse(500, "User Creation Failed", null, err.message));
   }
 }
 

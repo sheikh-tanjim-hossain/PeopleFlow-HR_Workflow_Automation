@@ -1,5 +1,5 @@
 // internal imports
-const getProfile = require("../controller/profile/getProfile.controller");
+const getProfileController = require("../controller/profile/getProfile.controller");
 
 // external imports
 const express = require("express");
@@ -7,9 +7,8 @@ const express = require("express");
 // set router
 const router = express.Router();
 
-console.log("");
 
 // get profile
-router.get("/", getProfile);
+router.get("/", getProfileController);
 
 module.exports = router;

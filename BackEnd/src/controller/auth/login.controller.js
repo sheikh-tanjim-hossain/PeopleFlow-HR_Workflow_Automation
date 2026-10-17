@@ -27,6 +27,7 @@ async function loginController(req, res) {
     const employee = await EmployeeModel.findOne({ email })
       .select("+password")
       .populate("role");
+
     if (!employee) {
       return res
         .status(404)
@@ -40,8 +41,9 @@ async function loginController(req, res) {
         );
     }
 
+    const passwordMatch = await employee.matchPassword(password);
     //password didnt match
-    if (!employee.matchPassword(password)) {
+    if (!passwordMatch) {
       return res
         .status(401)
         .json(
@@ -78,7 +80,7 @@ async function loginController(req, res) {
       .cookie(process.env.APP_NAME, jwtToken, {
         signed: true,
         httpOnly: true,
-        maxAge: process.env.SESSION_EXPIRE,
+        maxAge: Number(process.env.SESSION_EXPIRE) * 1000,
       })
       .send(
         new ApiResponse(

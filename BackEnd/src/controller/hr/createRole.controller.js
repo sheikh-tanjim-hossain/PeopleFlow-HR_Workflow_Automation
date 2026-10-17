@@ -1,12 +1,19 @@
 // internal imports
-const apiResponse = require("../../utils/apiResponse");
+const ApiResponse = require("../../utils/apiResponse");
 const roleModel = require("../../model/roleModel");
 
 async function createRoleController(req, res, next) {
   try {
-    const newRole = await roleModel.create({ ...req.body });
+    const { title, responsibility, description } = req.body;
+    const newRole = await roleModel.create({
+      title,
+      responsibility,
+      description,
+    });
 
-    res.send(newRole);
+    res
+      .status(200)
+      .send(new ApiResponse(200, "Role created successfully", newRole, null));
   } catch (err) {}
 }
 
