@@ -1,6 +1,6 @@
 // Internal Imports
-const ApiResponse = require("./../../utils/apiResponse");
-const employeeModel = require("./../../model/employeeModel");
+const ApiResponse = require("../../utils/apiResponse");
+const employeeModel = require("../../model/employeeModel");
 
 async function getProfile(req, res, next) {
   try {

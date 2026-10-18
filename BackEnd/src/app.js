@@ -8,7 +8,7 @@ const hrRouter = require("./routers/hr.Router");
 const authRouter = require("./routers/auth.Router");
 const ApiResponse = require("./utils/apiResponse");
 const testRouter = require("./routers/testRouter");
-const profileRouter = require("./routers/profile.Router");
+const employeeRouter = require("./routers/employee.Router");
 
 // initialize the server
 const app = express();
@@ -44,7 +44,7 @@ app.use("/api/v1/test", testRouter);
  * Profile Router
  */
 
-app.use("/api/v1/profile", authMiddleware, profileRouter);
+app.use("/api/v1/employee", authMiddleware, employeeRouter);
 
 /**
  * Global Error Handler

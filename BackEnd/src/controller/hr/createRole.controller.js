@@ -12,7 +12,7 @@ async function createRoleController(req, res, next) {
     });
 
     res
-      .status(200)
+      .status(201)
       .send(new ApiResponse(200, "Role created successfully", newRole, null));
   } catch (err) {}
 }

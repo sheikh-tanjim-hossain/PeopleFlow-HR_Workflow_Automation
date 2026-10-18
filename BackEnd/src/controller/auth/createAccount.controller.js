@@ -36,7 +36,7 @@ async function createAccountController(req, res, next) {
     });
 
     return res
-      .status(200)
+      .status(201)
       .json(
         new ApiResponse(
           200,
