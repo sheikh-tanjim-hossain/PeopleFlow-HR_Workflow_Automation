@@ -5,7 +5,7 @@ const employeeModel = require("../../model/employeeModel");
 async function getProfile(req, res, next) {
   try {
     const profileDetails = await employeeModel
-      .findOne({ _id: req.jwt.id })
+      .findOne({ _id: req.jwt._id })
       .select("-createdAt -updatedAt -__v")
       .populate({ path: "role", select: "-__v" });
 

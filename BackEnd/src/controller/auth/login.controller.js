@@ -28,6 +28,7 @@ async function loginController(req, res) {
       .select("+password")
       .populate("role");
 
+    // user dont exist
     if (!employee) {
       return res
         .status(404)
@@ -64,7 +65,7 @@ async function loginController(req, res) {
 
     const jwtToken = jwt.sign(
       {
-        id: employee._id,
+        _id: employee._id,
         name: employee.name,
         role: employee.role.title,
       },
@@ -87,7 +88,7 @@ async function loginController(req, res) {
           200,
           "Login successfull",
           {
-            id: employee._id,
+            _id: employee._id,
             name: employee.name,
             role: employee.role.title,
           },

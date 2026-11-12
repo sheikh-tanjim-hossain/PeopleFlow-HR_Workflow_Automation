@@ -43,13 +43,17 @@ const employeeSchema = new mongoose.Schema(
       ref: "role",
       required: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
   },
 );
 
-// hash password on modify
+// hash password on save
 employeeSchema.pre("save", async function () {
   if (!this.isModified("password")) {
     return;
@@ -59,6 +63,17 @@ employeeSchema.pre("save", async function () {
   this.password = hash;
 
   return;
+});
+
+// hash password on update
+employeeSchema.pre("findOneAndUpdate", async function () {
+  const update = this.getUpdate();
+
+  if (update.password) {
+    update.password = await bcrypt.hash(update.password, 10);
+  }
+
+  this.setUpdate(update);
 });
 
 // compare password

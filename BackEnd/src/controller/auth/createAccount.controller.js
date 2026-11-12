@@ -41,7 +41,7 @@ async function createAccountController(req, res, next) {
         new ApiResponse(
           200,
           "user created successfully",
-          { name, email, age, salary, isEmployed, role, id: employee._id },
+          { name, email, age, salary, isEmployed, role, _id: employee._id },
           null,
         ),
       );

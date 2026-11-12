@@ -1,6 +1,7 @@
 // external imports
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // internal imports
 const authMiddleware = require("./middleware/auth.middleware");
@@ -14,6 +15,14 @@ const employeeRouter = require("./routers/employee.Router");
 const app = express();
 
 // Middleware
+app.use(
+  cors({
+    origin: process.env.FRONT_END_ADDRESS,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 

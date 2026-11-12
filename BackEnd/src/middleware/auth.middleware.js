@@ -10,32 +10,32 @@ function authenticationMiddleware(req, res, next, arr = []) {
     const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
 
     // JWT varification
-    if (decodedToken.id) {
+    if (decodedToken._id) {
       if (arr.length === 0) {
         req.jwt = decodedToken;
         return next();
       } else {
+        console.log(console.log(decodedToken));
         // authorization
         for (let i = 0; i < arr.length; i++) {
           item = arr[i];
           firstFieldName = Object.keys(item)[0];
+
           if (decodedToken[firstFieldName] === item[firstFieldName]) {
-            next();
-            break;
-          } else {
-            // authorization failed
-            res
-              .status(401)
-              .json(
-                new ApiResponse(
-                  401,
-                  "Access Denied. Unauthorized access. Your are not cleared to access this resource",
-                  null,
-                  "Authorization Failed",
-                ),
-              );
+            return next();
           }
         }
+        // authorization failed
+        res
+          .status(401)
+          .json(
+            new ApiResponse(
+              401,
+              "Access Denied. Unauthorized access. Your are not cleared to access this resource",
+              null,
+              "Authorization Failed",
+            ),
+          );
       }
     } else {
       // cookie not found

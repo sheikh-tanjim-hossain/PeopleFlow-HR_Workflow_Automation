@@ -3,10 +3,16 @@ const ApiResponse = require("../../utils/apiResponse");
 const EmployeeModel = require("../../model/employeeModel");
 
 async function getEmployeeByID(req, res, next) {
+  let select = "-createdAt -updatedAt -__v ";
+  if ((req.jwt.role = "hr")) {
+    select = "-createdAt -updatedAt -__v +salary";
+  }
   try {
     const employee = await EmployeeModel.findOne({
       _id: req.params.employeeId,
-    }).select("-createdAt -updatedAt -__v ");
+    })
+      .select(select)
+      .populate("role");
 
     // employee not found
     if (!employee) {
@@ -24,8 +30,6 @@ async function getEmployeeByID(req, res, next) {
 
     // process employee data
     const employeeData = employee.toObject();
-    employeeData.id = employeeData._id;
-    delete employeeData._id;
 
     return res
       .status(200)
